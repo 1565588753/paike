@@ -2,11 +2,11 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from typing import Optional
 import json
-from ...core.database import get_db
-from ...core.security import get_current_user, RoleRequired
-from ...models.user import User
-from ...models.scheduling import HRRecord, SchedulePlan, TimeSlot, CourseCycle, SubjectWeeklyPlan
-from ...schemas.common import GenericResponse
+from app.core.database import get_db
+from app.core.security import get_current_user, RoleRequired
+from app.models.user import User
+from app.models.scheduling import HRRecord, SchedulePlan, TimeSlot, CourseCycle, SubjectWeeklyPlan
+from app.schemas.common import GenericResponse
 
 router = APIRouter(tags=["人事表与作息"])
 
@@ -27,7 +27,7 @@ def list_schedule_plans(db: Session = Depends(get_db), user: User = Depends(get_
 
 @router.post("/schedule-plans", response_model=GenericResponse)
 def create_schedule_plan(payload: dict, db: Session = Depends(get_db),
-                         user: User = Depends(RoleRequired(["admin", "academic"])):
+                         user: User = Depends(RoleRequired(["admin", "academic"]))):
     p = SchedulePlan(name=payload["name"], description=payload.get("description"), is_default=payload.get("is_default", False))
     db.add(p)
     db.commit()
@@ -65,7 +65,7 @@ def list_hr(academic_year_id: int, semester_id: int, db: Session = Depends(get_d
 
 @router.post("/hr-records", response_model=GenericResponse)
 def upsert_hr(payload: dict, db: Session = Depends(get_db),
-              user: User = Depends(RoleRequired(["admin", "academic"])):
+              user: User = Depends(RoleRequired(["admin", "academic"]))):
     r = db.query(HRRecord).filter(
         HRRecord.class_id == payload["class_id"],
         HRRecord.academic_year_id == payload["academic_year_id"],
@@ -105,7 +105,7 @@ def list_weekly_hours(academic_year_id: int, semester_id: int,
 
 @router.post("/weekly-hours", response_model=GenericResponse)
 def upsert_weekly_hours(payload: dict, db: Session = Depends(get_db),
-                        user: User = Depends(RoleRequired(["admin", "academic"])):
+                        user: User = Depends(RoleRequired(["admin", "academic"]))):
     it = db.query(SubjectWeeklyPlan).filter(
         SubjectWeeklyPlan.class_id == payload["class_id"],
         SubjectWeeklyPlan.subject_id == payload["subject_id"],

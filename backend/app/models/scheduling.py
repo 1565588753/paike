@@ -1,7 +1,10 @@
-from sqlalchemy import Column, BigInteger, String, Integer, SmallInteger, DateTime, Date, Boolean
-from sqlalchemy.dialects.mysql import JSON
+from sqlalchemy import Column, BigInteger, String, Integer, SmallInteger, DateTime, Date, Boolean, Text
+try:
+    from sqlalchemy import JSON  # SQLAlchemy 2.0 通用 JSON
+except Exception:  # pragma: no cover
+    from sqlalchemy.dialects.mysql import JSON
 from sqlalchemy.sql import func
-from ..core.database import Base
+from app.core.database import Base
 
 
 class AcademicYear(Base):

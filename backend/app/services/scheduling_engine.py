@@ -1,11 +1,11 @@
 from ortools.sat.python import cp_model
 from sqlalchemy.orm import Session
 from typing import List, Dict, Tuple
-from ..models.scheduling import (
+from app.models.scheduling import (
     Teacher, ClassInfo, Subject, Classroom, TimeSlot, SchedulePlan,
     HRRecord, TimetableEntry, TimetableVersion, SubjectWeeklyPlan, CourseCycle
 )
-from ..core.logger import logger
+from app.core.logger import logger
 from datetime import datetime
 
 

@@ -2,7 +2,7 @@ from datetime import datetime
 from fastapi import Request
 from sqlalchemy.orm import Session
 from ..models.log import OperationLog
-from ..core.database import SessionLocal
+from app.core.database import SessionLocal
 
 
 def log_operation(user_id: int = None, username: str = None, operation: str = None,

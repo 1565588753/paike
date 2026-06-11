@@ -3,18 +3,18 @@ from fastapi.responses import StreamingResponse, Response
 from sqlalchemy.orm import Session
 from typing import Optional, List
 from io import BytesIO
-from ...core.database import get_db
-from ...core.security import get_current_user, RoleRequired
-from ...models.user import User
-from ...models.scheduling import (
+from app.core.database import get_db
+from app.core.security import get_current_user, RoleRequired
+from app.models.user import User
+from app.models.scheduling import (
     TimetableVersion, TimetableEntry, TimetableQuality,
     ClassInfo, Subject, Teacher, Classroom, TimeSlot, AdjustmentRecord
 )
-from ...services.scheduling_engine import SchedulingEngine
-from ...services.conflict_detector import ConflictDetector
-from ...services.quality_evaluator import QualityEvaluator
-from ...services.export_service import ExportService
-from ...schemas.common import TimetableMoveRequest, TimetableSwapRequest, GenericResponse
+from app.services.scheduling_engine import SchedulingEngine
+from app.services.conflict_detector import ConflictDetector
+from app.services.quality_evaluator import QualityEvaluator
+from app.services.export_service import ExportService
+from app.schemas.common import TimetableMoveRequest, TimetableSwapRequest, GenericResponse
 
 router = APIRouter(tags=["课表管理"])
 

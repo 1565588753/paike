@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from datetime import datetime
-from ...core.database import get_db
-from ...core.security import get_current_user, RoleRequired
-from ...models.user import User
-from ...models.scheduling import SwapRequest, TimetableEntry, Notification
-from ...schemas.common import SwapRequestCreate, GenericResponse
+from app.core.database import get_db
+from app.core.security import get_current_user, RoleRequired
+from app.models.user import User
+from app.models.scheduling import SwapRequest, TimetableEntry, Notification
+from app.schemas.common import SwapRequestCreate, GenericResponse
 
 router = APIRouter(tags=["换课申请"])
 

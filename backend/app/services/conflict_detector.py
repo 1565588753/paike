@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from typing import List, Dict, Optional, Tuple
-from ..models.scheduling import TimetableEntry, TimeSlot, CourseCycle
+from app.models.scheduling import TimetableEntry, TimeSlot, CourseCycle
 
 
 class ConflictDetector:

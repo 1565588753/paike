@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from typing import Optional
-from ...core.database import get_db
-from ...core.security import get_current_user, RoleRequired
-from ...models.user import User
-from ...models.scheduling import AcademicYear, Semester
-from ...schemas.common import GenericResponse
+from app.core.database import get_db
+from app.core.security import get_current_user, RoleRequired
+from app.models.user import User
+from app.models.scheduling import AcademicYear, Semester
+from app.schemas.common import GenericResponse
 
 router = APIRouter(tags=["学年学期"])
 
@@ -92,7 +92,7 @@ def set_current_semester(semester_id: int, db: Session = Depends(get_db),
 def upgrade_year(year_id: int, target_year_id: int, db: Session = Depends(get_db),
                  user: User = Depends(RoleRequired(["admin", "academic"]))):
     """将现有班级升到下一年级，并创建新一年级。"""
-    from ...models.scheduling import ClassInfo, Grade
+    from app.models.scheduling import ClassInfo, Grade
     grades = {g.level: g.id for g in db.query(Grade).all()}
     classes = db.query(ClassInfo).filter(ClassInfo.academic_year_id == year_id).all()
     new_classes = []

@@ -1,13 +1,13 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from ...core.database import get_db
-from ...core.security import get_current_user
-from ...models.user import User
-from ...models.scheduling import (
+from app.core.database import get_db
+from app.core.security import get_current_user
+from app.models.user import User
+from app.models.scheduling import (
     Notification, SpecialDate, TimetableEntry, SwapRequest,
     Teacher, ClassInfo, Subject
 )
-from ...schemas.common import GenericResponse
+from app.schemas.common import GenericResponse
 
 router = APIRouter(tags=["统计与通知"])
 
@@ -56,7 +56,7 @@ def teacher_workload(version_id: int, db: Session = Depends(get_db),
 @router.get("/stats/classroom-utilization", response_model=GenericResponse)
 def classroom_utilization(version_id: int, db: Session = Depends(get_db),
                           user: User = Depends(get_current_user)):
-    from ...models.scheduling import Classroom
+    from app.models.scheduling import Classroom
     entries = db.query(TimetableEntry).filter(
         TimetableEntry.version_id == version_id,
         TimetableEntry.classroom_id != None

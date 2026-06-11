@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from typing import Dict, List
-from ..models.scheduling import TimetableEntry, TimetableQuality, Subject, HRRecord
-from ..core.logger import logger
+from app.models.scheduling import TimetableEntry, TimetableQuality, Subject, HRRecord
+from app.core.logger import logger
 
 
 class QualityEvaluator:

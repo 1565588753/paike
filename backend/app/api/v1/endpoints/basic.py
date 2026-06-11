@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from typing import Optional
-from ...core.database import get_db
-from ...core.security import get_current_user, RoleRequired
-from ...models.user import User
-from ...models.scheduling import ClassInfo, Grade, Classroom, Subject
-from ...schemas.common import ClassInfoBase, ClassroomBase, SubjectBase, GenericResponse
+from app.core.database import get_db
+from app.core.security import get_current_user, RoleRequired
+from app.models.user import User
+from app.models.scheduling import ClassInfo, Grade, Classroom, Subject
+from app.schemas.common import ClassInfoBase, ClassroomBase, SubjectBase, GenericResponse
 
 router = APIRouter(tags=["基础数据"])
 

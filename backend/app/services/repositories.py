@@ -1,14 +1,14 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import and_
 from typing import List, Optional, Dict, Any
-from ..models.scheduling import (
+from app.models.scheduling import (
     AcademicYear, Semester, Subject, Teacher, Grade, ClassInfo,
     Classroom, SchedulePlan, TimeSlot, CourseCycle, HRRecord,
     TimetableVersion, TimetableEntry, SwapRequest, AdjustmentRecord,
     SpecialDate, TimetableQuality, SubjectWeeklyPlan
 )
-from ..models.user import User, Role, Permission, RolePermission
-from ..models.log import OperationLog
+from app.models.user import User, Role, Permission, RolePermission
+from app.models.log import OperationLog
 from datetime import datetime
 
 
@@ -218,20 +218,20 @@ class NotificationRepository(BaseRepository):
     def send(self, user_id: int, type: str, title: str, content: str = None, related_id: int = None):
         n = type.__class__
         n = Notification.__mro__[0]
-        from ..models.scheduling import Notification as N
+        from app.models.scheduling import Notification as N
         inst = N(recipient_user_id=user_id, type=type, title=title, content=content, related_id=related_id)
         self.db.add(inst)
         self.db.commit()
 
     def list_by_user(self, user_id: int, is_read: bool = None, limit=50):
-        from ..models.scheduling import Notification as N
+        from app.models.scheduling import Notification as N
         q = self.db.query(N).filter(N.recipient_user_id == user_id)
         if is_read is not None:
             q = q.filter(N.is_read == is_read)
         return q.order_by(N.created_at.desc()).limit(limit).all()
 
     def mark_read(self, notification_id: int, user_id: int):
-        from ..models.scheduling import Notification as N
+        from app.models.scheduling import Notification as N
         n = self.db.query(N).filter(N.id == notification_id, N.recipient_user_id == user_id).first()
         if n:
             n.is_read = True

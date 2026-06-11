@@ -1,20 +1,22 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from typing import Optional, List
-from ...core.database import get_db
-from ...core.security import get_current_user, RoleRequired, hash_password
-from ...models.user import User
-from ...models.scheduling import Teacher
-from ...schemas.common import TeacherCreate, TeacherResponse, GenericResponse
-from ...services.repositories import TeacherRepository
+from app.core.database import get_db
+from app.core.security import get_current_user, RoleRequired, hash_password
+from app.models.user import User
+from app.models.scheduling import Teacher
+from app.schemas.common import TeacherCreate, TeacherResponse, GenericResponse
+from app.services.repositories import TeacherRepository
 
 router = APIRouter(prefix="/teachers", tags=["教师"])
 
 
 @router.get("", response_model=GenericResponse)
-def list_teachers(keyword: Optional[str] = None, page: int = 1, page_size: int = 50,
-                  user: User = Depends(RoleRequired(["admin", "academic"])),
-                  db: Session = Depends(get_db)):
+def list_teachers(
+    keyword: Optional[str] = None,
+    page: int = 1,
+    page_size: int = 50,
+    user: User = Depends(RoleRequired(["admin", "academic"]))):
     repo = TeacherRepository(db)
     items = repo.list(keyword=keyword, skip=(page - 1) * page_size, limit=page_size)
     total = repo.count(keyword=keyword)
